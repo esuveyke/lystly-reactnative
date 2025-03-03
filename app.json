@@ -15,14 +15,17 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.lystly.app"
+      "bundleIdentifier": "app.lysty.lystly",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#c9d526"
       },
-      "package": "com.lystly.app"
+      "package": "com.ezrasuveyke.lystly"
     },
     "web": {
       "bundler": "metro",
@@ -48,6 +51,9 @@
     "owner": "suveyke",
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bfda5ebe-2976-4cb0-910d-56606e0411e3"
     }
   }
 }
