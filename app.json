@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#c9d526"
       },
-      "package": "com.ezrasuveyke.lystly"
+      "package": "app.lysty.lystly"
     },
     "web": {
       "bundler": "metro",
