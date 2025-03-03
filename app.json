@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Lystly",
+    "slug": "lystly",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#c9d526"
+    },
+    "scheme": "lystly",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lystly.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#c9d526"
+      },
+      "package": "com.lystly.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "bfda5ebe-2976-4cb0-910d-56606e0411e3"
+      }
+    },
+    "owner": "suveyke",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}

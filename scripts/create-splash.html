@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Splash Screen</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .canvas-container {
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        canvas {
+            display: block;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        .download-btn {
+            margin-top: 20px;
+            background-color: #28a745;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Splash Screen for Lystly</h1>
+        
+        <div class="controls">
+            <div class="input-group">
+                <label for="logo-input">Upload Logo Image:</label>
+                <input type="file" id="logo-input" accept="image/*">
+            </div>
+            
+            <div class="input-group">
+                <label for="bg-color">Background Color:</label>
+                <input type="color" id="bg-color" value="#c9d526">
+            </div>
+            
+            <button id="generate-btn">Generate Splash Screen</button>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="canvas" width="1242" height="2436"></canvas>
+        </div>
+        
+        <button id="download-btn" class="download-btn">Download Splash Screen</button>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const logoInput = document.getElementById('logo-input');
+        const bgColorInput = document.getElementById('bg-color');
+        const generateBtn = document.getElementById('generate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        
+        let logoImage = null;
+        
+        // Initialize canvas with background color
+        function initCanvas() {
+            const bgColor = bgColorInput.value;
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // Handle logo upload
+        logoInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    logoImage = new Image();
+                    logoImage.onload = () => {
+                        generateSplashScreen();
+                    };
+                    logoImage.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Generate splash screen
+        function generateSplashScreen() {
+            initCanvas();
+            
+            if (logoImage) {
+                // Calculate dimensions to maintain aspect ratio
+                const logoAspect = logoImage.width / logoImage.height;
+                let logoWidth = canvas.width * 0.8; // 80% of canvas width
+                let logoHeight = logoWidth / logoAspect;
+                
+                // If logo is too tall, scale based on height
+                if (logoHeight > canvas.height * 0.6) {
+                    logoHeight = canvas.height * 0.6;
+                    logoWidth = logoHeight * logoAspect;
+                }
+                
+                // Center the logo
+                const x = (canvas.width - logoWidth) / 2;
+                const y = (canvas.height - logoHeight) / 2;
+                
+                // Draw logo
+                ctx.drawImage(logoImage, x, y, logoWidth, logoHeight);
+            }
+        }
+        
+        // Generate button click handler
+        generateBtn.addEventListener('click', generateSplashScreen);
+        
+        // Download button click handler
+        downloadBtn.addEventListener('click', () => {
+            const dataUrl = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'splash.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+        
+        // Initialize on load
+        initCanvas();
+    </script>
+</body>
+</html> 
