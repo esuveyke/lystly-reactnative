@@ -1,20 +1,29 @@
 {
-  "name": "bolt-expo-starter",
-  "main": "expo-router/entry",
+  "name": "lystly-expo",
+  "main": "app.tsx",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "volta": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "EXPO_NO_TELEMETRY=1 expo start --clear",
     "start": "expo start --clear",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "build:web": "expo export --platform web",
     "lint": "expo lint",
     "eas-build-pre-install": "npm config set legacy-peer-deps true",
     "preview": "expo start --clear",
     "build:preview": "expo export --platform web",
-    "deploy": "npx eas-cli build --platform web"
+    "deploy": "npx eas-cli build --platform web",
+    "check-deps": "node scripts/check-dependencies.js",
+    "preinstall": "node scripts/check-dependencies.js"
   },
   "dependencies": {
     "@dotlottie/react-player": "^1.6.15",
@@ -41,26 +50,42 @@
     "expo-status-bar": "^2.0.1",
     "expo-symbols": "^0.2.2",
     "expo-system-ui": "^4.0.7",
+    "expo-updates": "~0.27.1",
     "expo-web-browser": "^14.0.2",
+    "exponential-backoff": "^3.1.2",
     "lottie-react-native": "^7.1.0",
-    "lucide-react-native": "^0.475.0",
+    "lucide-react-native": "^0.294.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.7",
     "react-native-gesture-handler": "~2.20.2",
-    "react-native-reanimated": "^3.16.7",
+    "react-native-reanimated": "3.5.0",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
-    "react-native-svg": "15.8.0",
+    "react-native-svg": "^13.14.1",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "^0.19.13",
     "react-native-webview": "13.12.5",
-    "zustand": "^4.5.2",
-    "expo-updates": "~0.27.1",
-    "expo-dev-client": "~5.0.12"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-arrow-functions": "^7.25.9",
+    "@babel/plugin-transform-async-to-generator": "^7.25.9",
+    "@babel/plugin-transform-class-properties": "^7.25.9",
+    "@babel/plugin-transform-classes": "^7.25.9",
+    "@babel/plugin-transform-destructuring": "^7.25.9",
+    "@babel/plugin-transform-for-of": "^7.26.9",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.26.6",
+    "@babel/plugin-transform-object-rest-spread": "^7.25.9",
+    "@babel/plugin-transform-parameters": "^7.25.9",
+    "@babel/plugin-transform-private-methods": "^7.25.9",
+    "@babel/plugin-transform-private-property-in-object": "^7.25.9",
+    "@babel/plugin-transform-regenerator": "^7.25.9",
+    "@babel/plugin-transform-runtime": "^7.26.9",
+    "@babel/plugin-transform-shorthand-properties": "^7.25.9",
+    "@babel/plugin-transform-spread": "^7.25.9",
+    "@babel/plugin-transform-template-literals": "^7.26.8",
     "@types/react": "~18.3.12",
     "metro": "^0.81.2",
     "metro-config": "^0.81.2",
@@ -71,7 +96,15 @@
     "typescript": "^5.3.3"
   },
   "resolutions": {
-    "cookie": "^0.7.0"
+    "cookie": "^0.7.0",
+    "react-native-reanimated": "3.5.0",
+    "react": "18.3.1",
+    "react-native": "0.76.7"
+  },
+  "overrides": {
+    "react-native-reanimated": "3.5.0",
+    "react": "18.3.1",
+    "react-native": "0.76.7"
   },
   "expo": {
     "doctor": {
@@ -81,6 +114,35 @@
           "lucide-react-native"
         ]
       }
+    },
+    "sdkVersion": "52.0.0",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
+  },
+  "packageManager": "npm@9.x",
+  "dependencyRules": {
+    "rules": [
+      {
+        "package": "expo",
+        "version": "~52.0.36",
+        "message": "Expo SDK version must be 52.x"
+      },
+      {
+        "package": "react-native-reanimated",
+        "version": "3.5.0",
+        "message": "Reanimated must be exactly 3.5.0 for stability with Expo SDK 52"
+      },
+      {
+        "package": "react",
+        "version": "18.3.1",
+        "message": "React version must match Expo SDK 52 requirements"
+      },
+      {
+        "package": "react-native",
+        "version": "0.76.7",
+        "message": "React Native version must match Expo SDK 52 requirements"
+      }
+    ]
   }
 }

@@ -3,13 +3,14 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet, useColorScheme, Platform } from 'react-native';
+import { StyleSheet, useColorScheme, Platform, View } from 'react-native';
 import { useThemeStore, useSystemThemeSync } from '@/store/themeStore';
 import { useAuthStore } from '@/store/authStore';
 import { useItemStore } from '@/store/itemStore';
 import SplashScreen from '@/components/SplashScreen';
 import * as SplashScreenModule from 'expo-splash-screen';
 import useTheme from '@/hooks/useTheme';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreenModule.preventAutoHideAsync().catch(() => {
@@ -25,7 +26,7 @@ declare global {
 // Check if we're in a browser environment
 const isBrowser = typeof window !== 'undefined';
 
-export default function RootLayout() {
+function RootLayout() {
   const colorScheme = useColorScheme();
   const { updateThemeFromSystem, theme, preference } = useThemeStore();
   const { initialize, initialized, user } = useAuthStore();
@@ -92,9 +93,6 @@ export default function RootLayout() {
     }
   }, [user, appIsReady]);
 
-  // Determine the initial route based on authentication status
-  const initialRoute = user ? '(tabs)' : '(auth)';
-
   // Show splash screen while initializing
   if (!appIsReady) {
     return <SplashScreen onFinish={onSplashScreenFinish} />;
@@ -104,16 +102,21 @@ export default function RootLayout() {
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaProvider>
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-        <Stack 
-          screenOptions={{ 
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.background },
-            title: 'Lystly'
-          }}
-        >
-          <Stack.Screen name={initialRoute} options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
+          <Stack 
+            screenOptions={{ 
+              headerShown: false,
+              contentStyle: { backgroundColor: colors.background },
+              title: 'Lystly'
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(modals)" options={{ headerShown: false }} />
+            <Stack.Screen name="item" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </View>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
@@ -124,3 +127,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default RootLayout;

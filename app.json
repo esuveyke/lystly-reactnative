@@ -12,12 +12,13 @@
     },
     "scheme": "lystly",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "app.lysty.lystly",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["fetch"],
+        "JSEngine": "jsc"
       }
     },
     "android": {
@@ -49,9 +50,7 @@
       }
     },
     "owner": "suveyke",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/bfda5ebe-2976-4cb0-910d-56606e0411e3"
     }
