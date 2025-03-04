@@ -23,7 +23,9 @@
     "build:preview": "expo export --platform web",
     "deploy": "npx eas-cli build --platform web",
     "check-deps": "node scripts/check-dependencies.js",
-    "preinstall": "node scripts/check-dependencies.js"
+    "preinstall": "node scripts/check-dependencies.js",
+    "prepare": "husky install",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@dotlottie/react-player": "^1.6.15",
@@ -87,12 +89,15 @@
     "@babel/plugin-transform-spread": "^7.25.9",
     "@babel/plugin-transform-template-literals": "^7.26.8",
     "@types/react": "~18.3.12",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "metro": "^0.81.2",
     "metro-config": "^0.81.2",
     "metro-core": "^0.81.2",
     "metro-resolver": "^0.81.2",
     "metro-runtime": "^0.81.2",
     "metro-source-map": "^0.81.2",
+    "prettier": "^3.5.3",
     "typescript": "^5.3.3"
   },
   "resolutions": {
@@ -143,6 +148,15 @@
         "version": "0.76.7",
         "message": "React Native version must match Expo SDK 52 requirements"
       }
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
     ]
   }
 }
